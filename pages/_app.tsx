@@ -1,4 +1,6 @@
+/* eslint-disable import/no-unresolved */
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import PlayerLayout from "../components/playerlayout";
 import "reset-css";
 
 const theme = extendTheme({
@@ -32,9 +34,11 @@ const theme = extendTheme({
 const MyApp = ({ Component, pageProps }) => {
   return (
     <ChakraProvider theme={theme}>
-      <Component {...pageProps} />;
+      <PlayerLayout>
+        <Component {...pageProps} />
+      </PlayerLayout>
     </ChakraProvider>
-  )
+  );
 };
 
 export default MyApp;
