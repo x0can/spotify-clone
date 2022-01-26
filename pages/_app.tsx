@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import PlayerLayout from "../components/playerlayout";
 import "reset-css";
