@@ -34,6 +34,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.json(user);
   } else {
     res.status(401);
-    res.json({ error: "Unrecognized credentials" }); 
+    res.json({ error: "Unrecognized credentials" });
   }
 };
