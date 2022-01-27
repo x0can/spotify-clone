@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { artistsData } from "./songsData";
@@ -33,6 +34,25 @@ const run = async () => {
       password: bcrypt.hashSync("password", salt),
     },
   });
+  const songs = await prisma.song.findMany({});
+
+  await Promise.all(
+    new Array(10).fill(1).map((_, i) => {
+      return prisma.playList.create({
+        data: {
+          name: `PlayList #${i + 1}`,
+          user: {
+            connect: { id: user.id },
+          },
+          songs: {
+            connect: songs.map((song) => ({
+              id: song.id,
+            })),
+          },
+        },
+      });
+    })
+  );
 };
 
 run()
