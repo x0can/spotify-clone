@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+// add regex to match all other routes except signin and signup
 const signedInPages = ["/", "/playlist", "/library"];
 
 export default function middleware(req) {
