@@ -38,9 +38,9 @@ const run = async () => {
 
   await Promise.all(
     new Array(10).fill(1).map((_, i) => {
-      return prisma.playList.create({
+      return prisma.playlist.create({
         data: {
-          name: `PlayList #${i + 1}`,
+          name: `Playlist #${i + 1}`,
           user: {
             connect: { id: user.id },
           },
