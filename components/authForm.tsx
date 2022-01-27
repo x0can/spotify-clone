@@ -37,24 +37,28 @@ const AuthForm: FC<{ mode: "signin" | "signup" }> = ({ mode }) => {
               placeholder="email"
               type="email"
               onChange={(e) => setEmail(e.target.value)}
+              marginBottom="20px"
             />
             <Input
               placeholder="password"
               type="password"
               onChange={(e) => setPassword(e.target.value)}
+              marginBottom="20px"
             />
-            <Button
-              type="submit"
-              bg="green.500"
-              isLoading={isLoading}
-              sx={{
-                "&:hover": {
-                  bg: "green.300",
-                },
-              }}
-            >
-              {mode}
-            </Button>
+            <Flex justify="center" align="center">
+              <Button
+                type="submit"
+                bg="green.500"
+                isLoading={isLoading}
+                sx={{
+                  "&:hover": {
+                    bg: "green.300",
+                  },
+                }}
+              >
+                {mode}
+              </Button>
+            </Flex>
           </form>
         </Box>
       </Flex>
