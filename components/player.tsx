@@ -1,77 +1,32 @@
 import {
-  ButtonGroup,
   Box,
-  IconButton,
   RangeSlider,
   RangeSliderFilledTrack,
   RangeSliderThumb,
   RangeSliderTrack,
-  Center,
   Flex,
   Text,
 } from "@chakra-ui/react";
 import ReactHowler from "react-howler";
 import { useEffect, useRef, useState } from "react";
-import {
-  MdShuffle,
-  MdSkipNext,
-  MdSkipPrevious,
-  MdOutlinePlayCircleFilled,
-  MdOutlinePauseCircleFilled,
-  MdOutlineRepeat,
-} from "react-icons/md";
+import ButtonGroups from "./buttonGroups";
 import { useStoreActions } from "easy-peasy";
 
 const Player = () => {
+  const [playing, setPlaying] = useState(true);
+  const [index, setIndex] = useState(0);
+  const [seek, setSeek] = useState(0.0);
+  const [repeat, setRepeat] = useState(false);
+  const [duration, setDuration] = useState(0.0);
+
+  const setPlayState = (value) => {
+    setPlaying(value);
+  };
+
   return (
     <Box>
-      <Box>{/* <ReactHowler/> */}</Box>
-      <Center>
-        <ButtonGroup>
-          <IconButton
-            outlibe="none"
-            variant="link"
-            aria-label="shuffle"
-            fontSize="24px"
-            icon={<MdShuffle />}
-          />
-          <IconButton
-            outlibe="none"
-            variant="link"
-            aria-label="skip"
-            fontSize="24px"
-            icon={<MdSkipPrevious />}
-          />
-          <IconButton
-            outlibe="none"
-            variant="link"
-            aria-label="play"
-            fontSize="24px"
-            icon={<MdOutlinePlayCircleFilled />}
-          />
-          <IconButton
-            outlibe="none"
-            variant="link"
-            aria-label="pause"
-            fontSize="24px"
-            icon={<MdOutlinePauseCircleFilled />}
-          />
-          <IconButton
-            outlibe="none"
-            variant="link"
-            aria-label="next"
-            fontSize="24px"
-            icon={<MdSkipNext />}
-          />
-          <IconButton
-            outlibe="none"
-            variant="link"
-            aria-label="repeat"
-            fontSize="24px"
-            icon={<MdOutlineRepeat />}
-          />
-        </ButtonGroup>
-      </Center>
+      <Box>{/* <ReactHowler playing={playing} src={activeSong?.url} /> */}</Box>
+      <ButtonGroups playing={playing} setPlayState={setPlayState} />
       <Box color="gray.600">
         <Flex justify="center" align="center">
           <Box width="10%">
