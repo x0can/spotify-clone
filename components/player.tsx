@@ -32,7 +32,9 @@ const Player = ({ songs, activeSong }) => {
   };
   return (
     <Box>
-      <Box>{/* <ReactHowler playing={playing} src={activeSong?.url} /> */}</Box>
+      <Box>
+        <ReactHowler playing={playing} src={activeSong?.url} />
+      </Box>
       <ButtonGroups
         playing={playing}
         setPlayState={setPlayState}
