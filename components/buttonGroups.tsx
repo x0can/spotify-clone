@@ -8,7 +8,14 @@ import {
   MdOutlineRepeat,
 } from "react-icons/md";
 
-const ButtonGroups = ({ playing, setPlayState }) => {
+const ButtonGroups = ({
+  playing,
+  setPlayState,
+  shuffle,
+  repeat,
+  onRepeat,
+  onShuffle,
+}) => {
   return (
     <Center>
       <ButtonGroup>
@@ -18,6 +25,8 @@ const ButtonGroups = ({ playing, setPlayState }) => {
           aria-label="shuffle"
           fontSize="24px"
           icon={<MdShuffle />}
+          color={shuffle ? "white" : ""}
+          onClick={onShuffle}
         />
         <IconButton
           outlibe="none"
@@ -58,6 +67,8 @@ const ButtonGroups = ({ playing, setPlayState }) => {
           aria-label="repeat"
           fontSize="24px"
           icon={<MdOutlineRepeat />}
+          onClick={onRepeat}
+          color={repeat ? "white" : "gray.600"}
         />
       </ButtonGroup>
     </Center>

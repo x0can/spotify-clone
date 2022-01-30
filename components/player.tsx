@@ -18,15 +18,29 @@ const Player = () => {
   const [seek, setSeek] = useState(0.0);
   const [repeat, setRepeat] = useState(false);
   const [duration, setDuration] = useState(0.0);
+  const [shuffle, setShuffle] = useState(false);
 
   const setPlayState = (value) => {
     setPlaying(value);
   };
 
+  const onShuffle = () => {
+    setShuffle((state) => !state);
+  };
+  const onRepeat = () => {
+    setRepeat((state) => !state);
+  };
   return (
     <Box>
       <Box>{/* <ReactHowler playing={playing} src={activeSong?.url} /> */}</Box>
-      <ButtonGroups playing={playing} setPlayState={setPlayState} />
+      <ButtonGroups
+        playing={playing}
+        setPlayState={setPlayState}
+        shuffle={shuffle}
+        repeat={repeat}
+        onRepeat={onRepeat}
+        onShuffle={onShuffle}
+      />
       <Box color="gray.600">
         <Flex justify="center" align="center">
           <Box width="10%">
