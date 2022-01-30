@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/aria-proptypes */
 import {
   Box,
   RangeSlider,
@@ -7,10 +8,11 @@ import {
   Flex,
   Text,
 } from "@chakra-ui/react";
-import ReactHowler from "react-howler";
 import { useEffect, useRef, useState } from "react";
 import { useStoreActions } from "easy-peasy";
+import ReactHowler from "react-howler";
 import ButtonGroups from "./buttonGroups";
+import { formatTime } from "../lib/formatter";
 
 const Player = ({ songs, activeSong }) => {
   const [playing, setPlaying] = useState(false);
@@ -21,6 +23,20 @@ const Player = ({ songs, activeSong }) => {
   const [duration, setDuration] = useState(0.0);
   const [shuffle, setShuffle] = useState(false);
   const soundRef = useRef(null);
+
+  useEffect(() => {
+    let timerId;
+
+    if (playing && !isSeeking) {
+      const f = () => {
+        setSeek(soundRef.current.seek());
+        timerId = requestAnimationFrame(f);
+      };
+      timerId = requestAnimationFrame(f);
+      return () => cancelAnimationFrame(timerId);
+    }
+    cancelAnimationFrame(timerId);
+  }, [playing, isSeeking]);
 
   const setPlayState = (value) => {
     setPlaying(value);
@@ -95,14 +111,14 @@ const Player = ({ songs, activeSong }) => {
       <Box color="gray.600">
         <Flex justify="center" align="center">
           <Box width="10%">
-            <Text fontSize="xs">1:21</Text>
+            <Text fontSize="xs">{formatTime(seek)}</Text>
           </Box>
           <Box width="80%">
             <RangeSlider
               aria-label={["min", "max"]}
               step={0.1}
               min={0}
-              max={duration ? duration.toFixed(2) : 0}
+              maxW={duration ? duration.toFixed(2) : 0}
               id="player-range"
               onChange={onSeek}
               value={[seek]}
@@ -116,7 +132,7 @@ const Player = ({ songs, activeSong }) => {
             </RangeSlider>
           </Box>
           <Box width="10%" textAlign="right">
-            <Text fontSize="xs">321</Text>
+            <Text fontSize="xs">{formatTime(duration)}</Text>
           </Box>
         </Flex>
       </Box>
