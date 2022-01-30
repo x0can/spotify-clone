@@ -15,6 +15,8 @@ const ButtonGroups = ({
   repeat,
   onRepeat,
   onShuffle,
+  prevSong,
+  nextSong,
 }) => {
   return (
     <Center>
@@ -34,6 +36,7 @@ const ButtonGroups = ({
           aria-label="skip"
           fontSize="24px"
           icon={<MdSkipPrevious />}
+          onClick={prevSong}
         />
         {playing ? (
           <IconButton
@@ -60,6 +63,7 @@ const ButtonGroups = ({
           aria-label="next"
           fontSize="24px"
           icon={<MdSkipNext />}
+          onClick={nextSong}
         />
         <IconButton
           outlibe="none"

@@ -9,16 +9,18 @@ import {
 } from "@chakra-ui/react";
 import ReactHowler from "react-howler";
 import { useEffect, useRef, useState } from "react";
-import ButtonGroups from "./buttonGroups";
 import { useStoreActions } from "easy-peasy";
+import ButtonGroups from "./buttonGroups";
 
 const Player = ({ songs, activeSong }) => {
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const [index, setIndex] = useState(0);
   const [seek, setSeek] = useState(0.0);
+  const [isSeeking, setIsSeeking] = useState(false);
   const [repeat, setRepeat] = useState(false);
   const [duration, setDuration] = useState(0.0);
   const [shuffle, setShuffle] = useState(false);
+  const soundRef = useRef(null);
 
   const setPlayState = (value) => {
     setPlaying(value);
@@ -30,10 +32,55 @@ const Player = ({ songs, activeSong }) => {
   const onRepeat = () => {
     setRepeat((state) => !state);
   };
+
+  const prevSong = () => {
+    setIndex((state) => {
+      return state ? state - 1 : songs.length - 1;
+    });
+  };
+
+  const nextSong = () => {
+    setIndex((state: any) => {
+      if (shuffle) {
+        const next = Math.floor(Math.random() * songs.length);
+        if (next === state) {
+          return nextSong();
+        }
+        return next;
+      }
+      return state === songs.length - 1 ? 0 : state + 1;
+    });
+  };
+
+  const onEnd = () => {
+    if (repeat) {
+      setSeek(0);
+      soundRef.current.seek(0);
+    } else {
+      nextSong();
+    }
+  };
+
+  const onLoad = () => {
+    const songDuration = soundRef.current.duration();
+    setDuration(songDuration);
+  };
+
+  const onSeek = (e) => {
+    setSeek(parseFloat(e[0]));
+    soundRef.current.seek(e[0]);
+  };
+
   return (
     <Box>
       <Box>
-        <ReactHowler playing={playing} src={activeSong?.url} />
+        <ReactHowler
+          playing={playing}
+          src={activeSong?.url}
+          ref={soundRef}
+          onLoad={onLoad}
+          onEnd={onEnd}
+        />
       </Box>
       <ButtonGroups
         playing={playing}
@@ -42,6 +89,8 @@ const Player = ({ songs, activeSong }) => {
         repeat={repeat}
         onRepeat={onRepeat}
         onShuffle={onShuffle}
+        prevSong={prevSong}
+        nextSong={nextSong}
       />
       <Box color="gray.600">
         <Flex justify="center" align="center">
@@ -53,8 +102,12 @@ const Player = ({ songs, activeSong }) => {
               aria-label={["min", "max"]}
               step={0.1}
               min={0}
-              max={321}
+              max={duration ? duration.toFixed(2) : 0}
               id="player-range"
+              onChange={onSeek}
+              value={[seek]}
+              onChangeStart={() => setIsSeeking(true)}
+              onChangeEnd={() => setIsSeeking(false)}
             >
               <RangeSliderTrack bg="gray.800">
                 <RangeSliderFilledTrack bg="gray.600" />
