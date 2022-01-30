@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from "react";
 import ButtonGroups from "./buttonGroups";
 import { useStoreActions } from "easy-peasy";
 
-const Player = () => {
+const Player = ({ songs, activeSong }) => {
   const [playing, setPlaying] = useState(true);
   const [index, setIndex] = useState(0);
   const [seek, setSeek] = useState(0.0);
